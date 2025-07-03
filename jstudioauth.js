@@ -1,72 +1,119 @@
-// Existing login, logout, and profile code remains the same...
+// Toggle the sidebar (profile menu)
+window.toggleSidebar = function () {
+  const sidebar = document.getElementById("profileSidebar");
+  if (sidebar) {
+    sidebar.classList.toggle("show");
+  }
+};
 
-function toggleSidebar() {
-  document.getElementById("profileSidebar").classList.toggle("show");
-}
-
-function setupProfile() {
+// Set up profile display (username + avatar)
+window.setupProfile = function () {
   const user = localStorage.getItem("jstudioUser");
   if (!user) return;
 
-  document.getElementById("usernameDisplay").textContent = user;
+  const usernameDisplay = document.getElementById("usernameDisplay");
   const avatar = document.getElementById("avatar");
-  const firstLetter = user.charAt(0).toUpperCase();
-  avatar.textContent = firstLetter;
 
-  const colors = ["#FF6B6B", "#6BCB77", "#4D96FF", "#F9C74F", "#9D4EDD"];
-  const color = colors[Math.floor(Math.random() * colors.length)];
-  avatar.style.backgroundColor = color;
+  if (usernameDisplay && avatar) {
+    usernameDisplay.textContent = user;
+    avatar.textContent = user.charAt(0).toUpperCase();
 
-  loadThemeSettings(); // Apply saved theme if exists
-}
+    const colors = ["#FF6B6B", "#6BCB77", "#4D96FF", "#F9C74F", "#9D4EDD"];
+    avatar.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+  }
 
-function applyTheme(hue, sat, mode) {
-  const lightness = mode === 'dark' ? '20%' : '90%';
-  const textColor = mode === 'dark' ? '#ffffff' : '#000000';
+  loadThemeSettings();
+};
 
-  document.documentElement.style.setProperty('--theme-hue', hue);
-  document.documentElement.style.setProperty('--theme-sat', `${sat}%`);
-  document.documentElement.style.setProperty('--theme-lightness', lightness);
-  document.documentElement.style.setProperty('--text-color', textColor);
+// Logout handler
+window.logout = function () {
+  localStorage.removeItem("jstudioUser");
+  localStorage.removeItem("jstudioToken");
+  window.location.href = "jstudiowelcome.html"; // Or wherever your welcome page is
+};
 
-  // Save preferences
-  localStorage.setItem('themeHue', hue);
-  localStorage.setItem('themeSat', sat);
-  localStorage.setItem('themeMode', mode);
-}
+// Apply theme based on user preferences
+window.applyTheme = function (hue, sat, mode) {
+  const lightness = mode === "dark" ? "20%" : "90%";
+  const textColor = mode === "dark" ? "#ffffff" : "#000000";
 
-function loadThemeSettings() {
-  const hue = localStorage.getItem('themeHue') || 240;
-  const sat = localStorage.getItem('themeSat') || 60;
-  const mode = localStorage.getItem('themeMode') || 'dark';
+  document.documentElement.style.setProperty("--theme-hue", hue);
+  document.documentElement.style.setProperty("--theme-sat", `${sat}%`);
+  document.documentElement.style.setProperty("--theme-lightness", lightness);
+  document.documentElement.style.setProperty("--text-color", textColor);
+
+  // Save to localStorage
+  localStorage.setItem("themeHue", hue);
+  localStorage.setItem("themeSat", sat);
+  localStorage.setItem("themeMode", mode);
+};
+
+// Load and apply theme from localStorage
+window.loadThemeSettings = function () {
+  const hue = localStorage.getItem("themeHue") || 240;
+  const sat = localStorage.getItem("themeSat") || 60;
+  const mode = localStorage.getItem("themeMode") || "dark";
   applyTheme(hue, sat, mode);
 
-  document.getElementById("hue").value = hue;
-  document.getElementById("saturation").value = sat;
-  document.getElementById("mode").value = mode;
-}
+  const hueSlider = document.getElementById("hueSlider");
+  const satSlider = document.getElementById("satSlider");
+  const modeToggle = document.getElementById("modeToggle");
 
+  if (hueSlider) hueSlider.value = hue;
+  if (satSlider) satSlider.value = sat;
+  if (modeToggle) modeToggle.value = mode;
+};
+
+// Basic login logic (can be replaced with real API)
+window.loginUser = function (event) {
+  event.preventDefault();
+  const email = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  // Dummy credentials - replace with real validation
+  if (email && password) {
+    localStorage.setItem("jstudioUser", email);
+    localStorage.setItem("jstudioToken", "dummy-token");
+    window.location.href = "jstudiohome.html";
+  } else {
+    document.getElementById("errorMessage").textContent = "Invalid credentials.";
+  }
+};
+
+// Basic register logic (can be replaced with real API)
+window.registerUser = function (event) {
+  event.preventDefault();
+  const email = document.getElementById("registerEmail").value;
+  const password = document.getElementById("registerPassword").value;
+
+  if (email && password) {
+    localStorage.setItem("jstudioUser", email);
+    localStorage.setItem("jstudioToken", "dummy-token");
+    window.location.href = "jstudiohome.html";
+  } else {
+    document.getElementById("registerError").textContent = "Please fill in all fields.";
+  }
+};
+
+// Initialize on jstudiohome.html
 if (window.location.pathname.includes("jstudiohome.html")) {
-  setupProfile();
+  document.addEventListener("DOMContentLoaded", () => {
+    setupProfile();
 
-  document.getElementById("hue").addEventListener("change", (e) => {
-    const hue = e.target.value;
-    const sat = document.getElementById("saturation").value;
-    const mode = document.getElementById("mode").value;
-    applyTheme(hue, sat, mode);
-  });
+    const hueSlider = document.getElementById("hueSlider");
+    const satSlider = document.getElementById("satSlider");
+    const modeToggle = document.getElementById("modeToggle");
 
-  document.getElementById("saturation").addEventListener("change", (e) => {
-    const sat = e.target.value;
-    const hue = document.getElementById("hue").value;
-    const mode = document.getElementById("mode").value;
-    applyTheme(hue, sat, mode);
-  });
+    if (hueSlider && satSlider && modeToggle) {
+      function updateTheme() {
+        applyTheme(hueSlider.value, satSlider.value, modeToggle.value);
+      }
 
-  document.getElementById("mode").addEventListener("change", (e) => {
-    const mode = e.target.value;
-    const hue = document.getElementById("hue").value;
-    const sat = document.getElementById("saturation").value;
-    applyTheme(hue, sat, mode);
+      hueSlider.addEventListener("input", updateTheme);
+      satSlider.addEventListener("input", updateTheme);
+      modeToggle.addEventListener("change", updateTheme);
+
+      updateTheme();
+    }
   });
 }
