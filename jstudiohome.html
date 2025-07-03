@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JStudio Home</title>
+  <link rel="stylesheet" href="jstudio.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <!-- Fixed Header -->
+  <header class="top-header">
+    <h1>JStudio Dashboard</h1>
+    <h4>When Windows warns you, click 'More Info' and then 'Run Anyway'</h4>
+  </header>
+
+  <!-- Sidebar -->
+  <div id="profileSidebar" class="profile-sidebar">
+    <div class="avatar" id="avatar">U</div>
+    <h3 id="usernameDisplay">Username</h3>
+
+    <button class="btn" onclick="logout()">Sign Out</button>
+    <button class="btn">Add Profile Picture</button>
+
+    <div class="color-customizer">
+      <h4>🎨 Customize Theme</h4>
+
+      <label for="hueSlider">Hue (Warm ↔ Cool)</label>
+      <input type="range" id="hueSlider" min="0" max="360" value="240" />
+
+      <label for="satSlider">Vividness</label>
+      <input type="range" id="satSlider" min="0" max="100" value="60" />
+
+      <label for="modeToggle">🌞 Light / 🌚 Dark</label>
+      <select id="modeToggle">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Sidebar Toggle -->
+  <button class="toggle-profile" onclick="toggleSidebar()">☰ Profile</button>
+
+  <!-- Main -->
+  <main>
+    <section>
+      <h2>Available Games</h2>
+      <p>🎮 Game list goes here (embed or link to games)</p>
+      <a href="volleyballexe.zip" download class="btn game-btn">Download Volleyball Game (Windows and PC)</a>
+    </section>
+
+    <section>
+      <h2>Post a Game</h2>
+      <p>📝 Upload form for your own games (to be implemented)</p>
+    </section>
+  </main>
+
+  <!-- JS -->
+  <script src="jstudioauth.js"></script>
+  <script>
+    function applyTheme(hue, sat, mode) {
+      document.documentElement.style.setProperty('--theme-hue', hue);
+      document.documentElement.style.setProperty('--theme-sat', `${sat}%`);
+      document.documentElement.style.setProperty('--theme-lightness', mode === 'dark' ? '20%' : '90%');
+      document.body.classList.toggle('light-mode', mode === 'light');
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const hueSlider = document.getElementById("hueSlider");
+      const satSlider = document.getElementById("satSlider");
+      const modeToggle = document.getElementById("modeToggle");
+
+      function updateTheme() {
+        applyTheme(hueSlider.value, satSlider.value, modeToggle.value);
+      }
+
+      hueSlider.addEventListener("input", updateTheme);
+      satSlider.addEventListener("input", updateTheme);
+      modeToggle.addEventListener("change", updateTheme);
+
+      updateTheme(); // Initial theme
+    });
+  </script>
+</body>
+</html>
