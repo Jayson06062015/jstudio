@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+@import '../jstudio.css';
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 10px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 98vh;
+  height: 98vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  max-width: 95vw;
+  width: 95vw;
+  height: 95vh;
+  background-color: hsl(var(--theme-hue), var(--theme-sat), calc(var(--theme-lightness) + 15%));
+  padding: 20px 30px 30px 30px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.editor-wrapper {
+  position: relative;
+  flex: 1 1 auto;
+  margin-bottom: 15px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#highlighting {
+  position: absolute;
+  top: -17px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #e0e0e0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  pointer-events: none;
+  user-select: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: hsl(var(--theme-hue), var(--theme-sat), calc(var(--theme-lightness) - 5%));
+  border: 1px solid #444;
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.05);
+  z-index: 1;
+  text-align: left;
+}
+
+#editor {
+  position: relative;
+  top: 0;
+  left: 0;
+  background: transparent;
+  color: transparent;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 16px;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  z-index: 2;
+  caret-color: #4CAF50;
+  overflow: auto;
+}
+
+#editor:focus {
+  outline: none;
+  border-color: #FFF;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+#controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  user-select: none;
+  color: #a0a0a0;
+}
+
+#runButton {
+  margin-left: auto;
+}
+
+.header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: --text-color;
+  user-select: none;
+}
+
+button {
+  padding: 10px 22px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: var(--btn-bg);
+  color: var(--text-color);
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px var(--btn-bg);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--btn-hover);
+  box-shadow: 0 0 12px 4px var(--btn-hover), 0 0 12px 4px rgba(255, 255, 255, 0.5);
+}
+
+button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 2px 6px rgba(62, 142, 65, 1);
+}
+
+#terminal {
+  background-color: hsl(var(--theme-hue), var(--theme-sat), calc(var(--theme-lightness) - 5%));
+  padding: 15px;
+  white-space: pre-line;
+  border: 1px solid #444;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.05);
+  height: 120px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 15px;
+  color: #e0e0e0;
+  user-select: text;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.token-function {
+  color: #FFFF00; /* yellow */
+}
+
+.token-print {
+  color: #FFFF00; /* yellow */
+  font-weight: bold;
+}
+
+.token-number {
+  color: #00FF00; /* green */
+}
+
+.token-operator {
+  color: #1E90FF; /* blue */
+}
+
+.token-paren {
+  color: #87CEEB; /* sky blue */
+}
+
+.token-string {
+  color: #FF9966; /* light orange-red */
+}
+
+.token-comment {
+  color: #808080; /* gray */
+  font-style: italic;
+}
+
+.token-variable {
+  color: #ADFF2F; /* green-yellow */
+}
+
+.token-error {
+  color: #FF0000; /* red */
+  font-weight: bolder;
+}
+
+.token-keyword {
+  color: #800080; /* purple */
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  body {
+    margin: 10px 5px;
+  }
+  .container {
+    width: 100vw;
+    height: 100vh;
+    padding: 15px 20px 20px 20px;
+  }
+  #highlighting, #editor {
+    font-size: 14px;
+    min-height: 140px;
+  }
+  .header {
+    font-size: 1.3rem;
+  }
+  button {
+    padding: 8px 18px;
+    font-size: 14px;
+  }
+  #terminal {
+    font-size: 14px;
+    height: 100px;
+  }
+}

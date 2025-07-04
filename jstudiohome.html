@@ -44,15 +44,20 @@
 
   <!-- Main -->
   <main>
-    <section>
-      <h2>Available Games</h2>
-      <p>🎮 Game list goes here (embed or link to games)</p>
-      <a href="volleyballexe.zip" download class="btn game-btn">Download Volleyball Game (Windows and PC)</a>
-    </section>
-
-    <section>
-      <h2>Post a Game</h2>
-      <p>📝 Upload form for your own games (to be implemented)</p>
+    <section class="game-section">
+      <div class="game-box" style="display: flex; flex-direction: column;">
+        <h1 style="text-align: center;">Available Games</h1>
+        <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; gap: 10px;">
+          <a href="volleyballexe.zip" download class="btn game-btn">Download Sample Game (PC Only)</a>
+          <button class="btn game-btn" disabled>Browse Games</button>
+        </div>
+      </div>
+      <div class="game-box" style="display: flex; flex-direction: column;">
+        <h1 style="text-align: center;">Post a Game</h1>
+        <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+          <a href="JLang/jlang.html" class="btn game-btn">Create with JLang Studio (Beta)</a>
+        </div>
+      </div>
     </section>
   </main>
 
